@@ -84,8 +84,7 @@ def grief_check(connection, player, minutes=2):
             message += ', and belonged to %s' % name
         message += '.'
     switch_sentence = False
-    if player.last_switch is not None and player.last_switch >= time:
-        # TODO player.last_switch needs to use monotonic() as well, see player.py line 270 
+    if player.last_switch is not None and player.last_switch >= time: 
         time_s = prettify_timespan(monotonic() - player.last_switch,
                                    get_seconds=True)
         message += ' %s joined %s team %s ago' % (player_name,
