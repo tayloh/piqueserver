@@ -14,7 +14,6 @@ Commands
 .. codeauthor: mat^2
 """
 import os
-import time
 
 from twisted.internet import reactor
 from twisted.internet.task import LoopingCall
@@ -103,7 +102,8 @@ def apply_script(protocol, connection, config):
         def start_timer(self, end):
             if self.timer_end is not None:
                 return 'Timer is running already.'
-            self.timer_end = time.monotonic() + end
+            # timer_end is used to calculate time_left below, so need to keep reactor.seconds()
+            self.timer_end = reactor.seconds() + end
             self.broadcast_chat('Timer started, ending in %s minutes'
                                 % (end / 60), irc=True)
             self.display_timer(True)
@@ -117,7 +117,8 @@ def apply_script(protocol, connection, config):
                 return 'No timer in progress.'
 
         def display_timer(self, silent=False):
-            time_left = self.timer_end - time.monotonic()
+            # time_left is indirectly used with callLater, so need to keep reactor.seconds()
+            time_left = self.timer_end - reactor.seconds()
             minutes_left = time_left / 60.0
             next_call = 60
             if not silent:
