@@ -22,7 +22,6 @@ Options
 """
 
 from time import monotonic
-
 from twisted.internet.reactor import seconds
 from pyspades.collision import distance_3d_vector
 from pyspades.common import prettify_timespan
