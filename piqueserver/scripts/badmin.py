@@ -22,7 +22,6 @@ Commands
 """
 
 from time import monotonic
-
 from twisted.internet import reactor
 from pyspades.common import prettify_timespan
 from pyspades.constants import *
