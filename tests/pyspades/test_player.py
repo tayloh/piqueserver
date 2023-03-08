@@ -27,3 +27,15 @@ class BaseConnectionTest(unittest.TestCase):
             ply.on_new_player_recieved(ex_ply)
 
             self.assertEqual(ply.team, team)
+
+    def test_respawn(self):
+
+        ply = player.ServerConnection(Mock(), Mock())
+        ply.spawn = Mock()
+        ex_ply = contained.ExistingPlayer()
+        ex_ply.team = 1
+        ply.on_new_player_recieved(ex_ply)
+
+        self.assertTrue(ply.spawn_call is None)
+        ply.respawn()
+        self.assertTrue(ply.spawn_call is not None)
