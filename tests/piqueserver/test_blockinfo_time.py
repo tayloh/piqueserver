@@ -1,8 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
-import piqueserver.scripts.blockinfo as blockinfo
-
+from piqueserver.scripts import blockinfo
 from piqueserver.player import FeatureConnection
 from piqueserver.server import FeatureProtocol
 
@@ -49,3 +48,39 @@ class TestBlockInfoTime(unittest.TestCase):
         time_of_kill = monotonic()
 
         assert abs(time_of_kill - killer.teamkill_times[0]) < 0.1
+    
+
+    def test_badmin_grief_check(self):
+        """Asserts that the result of badmin grief_check() is consistent with
+        the times spefified in the input protocol and player
+        """
+        player = "#123"
+        connection = MagicMock()
+
+        connection.protocol = MagicMock()
+
+        # Set up the player object to be checked within grief_check()
+        player_object = MagicMock()
+
+        # Removed 5 blocks in the last 2 minutes
+        # Last one 9 seconds ago ( range = [5, 10) )
+        player_object.blocks_removed = [(monotonic() - i, ("name", "team")) for i in range(5, 10)]
+
+        # Switched team 1 minute ago
+        player_object.last_switch = monotonic() - 60
+
+        # Killed 10 teammembers in the last 2 minutes
+        player_object.teamkill_times = [monotonic() - i for i in range(10, 20)]
+
+        # To be returned by get_player() inside of grief_check()
+        connection.protocol.players = {123: player_object}
+
+        result_msg = blockinfo.grief_check(connection, player, minutes=2)
+
+        # Check that the output contains the expected values, all of these values
+        # are dependent on the time being correct.
+        assert "removed 5 blocks in the last 2.0 minutes" in result_msg
+        assert "Last one was destroyed 9 seconds ago" in result_msg
+        assert "team 1 minute ago" in result_msg
+        assert "killed 10 teammates in the last 2.0 minutes" in result_msg
+        
