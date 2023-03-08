@@ -4,7 +4,7 @@ from time import monotonic
 
 from piqueserver.scripts import badmin
 
-class TestBadmin(unittest.test):
+class TestBadminTime(unittest.test):
 
     def test_score_grief_leap_negative(self):
         """Asserts that score_grief gives the expected result regardless of a 
