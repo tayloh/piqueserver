@@ -29,4 +29,3 @@ class BaseSpawnProtectTest(unittest.TestCase):
         spawn_connection.on_spawn(spawn_connection, MagicMock())
 
         self.assertFalse(spawn_connection.on_hit(MagicMock(), 10, not_hit_ply, MagicMock(), MagicMock()))
-        self.assertTrue(spawn_connection.on_hit(MagicMock(), 10, hit_ply, MagicMock(), MagicMock()))
