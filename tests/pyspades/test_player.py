@@ -5,11 +5,12 @@ test pyspades/protocol.py
 from twisted.trial import unittest
 from pyspades import player, server, contained
 from pyspades.team import Team
-from unittest.mock import Mock
+from unittest.mock import MagicMock, Mock
+from time import monotonic
 
 class BaseConnectionTest(unittest.TestCase):
     def test_repr(self):
-        ply = player.ServerConnection(Mock(), Mock())
+        ply = player.ServerConnection(MagicMock(), MagicMock())
         repr(ply)
 
     def test_team_join(self):
@@ -30,8 +31,8 @@ class BaseConnectionTest(unittest.TestCase):
 
     def test_respawn(self):
 
-        ply = player.ServerConnection(Mock(), Mock())
-        ply.spawn = Mock()
+        ply = player.ServerConnection(MagicMock(), MagicMock())
+        ply.spawn = MagicMock()
         ex_ply = contained.ExistingPlayer()
         ex_ply.team = 1
         ply.on_new_player_recieved(ex_ply)
@@ -39,3 +40,11 @@ class BaseConnectionTest(unittest.TestCase):
         self.assertTrue(ply.spawn_call is None)
         ply.respawn()
         self.assertTrue(ply.spawn_call is not None)
+
+    def test_on_block_action_recieved(self):
+        ply = player.ServerConnection(MagicMock(), MagicMock())
+
+        block_action_time = monotonic()
+        ply.on_block_action_recieved(MagicMock())
+        
+        self.assertTrue(ply.last_block_destroy - block_action_time < 0.01)
