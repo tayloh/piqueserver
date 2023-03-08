@@ -1,10 +1,10 @@
 import unittest
-from unittest import MagicMock
+from unittest.mock import MagicMock
 from time import monotonic
 
 from piqueserver.scripts import badmin
 
-class TestBadminTime(unittest.test):
+class TestBadminTime(unittest.TestCase):
 
     def test_score_grief_leap_negative(self):
         """Asserts that score_grief gives the expected result regardless of a 
