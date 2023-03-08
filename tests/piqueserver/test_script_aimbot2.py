@@ -1,13 +1,7 @@
 import unittest
-from unittest.mock import Mock, MagicMock
 from time import monotonic
 from piqueserver.scripts import aimbot2
 from piqueserver.server import FeatureConnection, FeatureProtocol
-from pyspades import world
-from pyspades.common import Vertex3
-from pyspades.team import Team
-from pyspades.protocol import BaseProtocol
-from pyspades.constants import WEAPON_KILL
 
 class TestCopytree(unittest.TestCase):
     """
