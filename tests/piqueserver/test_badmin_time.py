@@ -6,7 +6,7 @@ from piqueserver.scripts import badmin
 
 class TestBadmin(unittest.test):
 
-    def test_grief_check_leap_negative(self):
+    def test_score_grief_leap_negative(self):
         """Asserts that score_grief gives the expected result regardless of a 
         negative leap second.
         """
@@ -20,7 +20,7 @@ class TestBadmin(unittest.test):
         # The returned gscore should be 6 according to the rules in badmin.
         # This is based on the fact that there are exactly 5 blocks within the timeframe.
         # See player.blocks_remved above.
-        # Indirectly tests that the monotonic() call happening inside of grief_check()
+        # Indirectly tests that the monotonic() call happening inside of score_grief()
         # always results in 5 blocks.
 
         # Asserts that score is always 6, if a negative leap second would affect the time
@@ -29,7 +29,7 @@ class TestBadmin(unittest.test):
         assert badmin.score_grief(connection, player, time = 2) == 6
 
     
-    def test_grief_check_leap_positive(self):
+    def test_score_grief_leap_positive(self):
         """Asserts that score_grief gives the expected result regardless of a 
         positive leap second.
         """
@@ -42,7 +42,7 @@ class TestBadmin(unittest.test):
         # The returned gscore should be 7 according to the rules in badmin.
         # This is based on the fact that there are exactly 6 blocks within the timeframe.
         # See player.blocks_remved above.
-        # Indirectly tests that the monotonic() call happening inside of grief_check()
+        # Indirectly tests that the monotonic() call happening inside of score_grief()
         # always results in 6 blocks.
 
         # Asserts that score is always 7, if a positive leap second would affect the time
